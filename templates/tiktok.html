@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تحميل تيك توك — Zak Tools</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body {
+            font-family: -apple-system, 'Segoe UI', 'Tahoma', sans-serif;
+            background: #0a0e1a;
+            color: #fff;
+            min-height: 100vh;
+        }
+        .bg-orbs { position: fixed; inset: 0; z-index: -1; overflow: hidden; }
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.35;
+            animation: float 20s infinite ease-in-out;
+        }
+        .orb1 { width: 350px; height: 350px; background: #25f4ee; top: -100px; right: -100px; }
+        .orb2 { width: 300px; height: 300px; background: #fe2c55; bottom: -80px; left: -80px; animation-delay: -7s; }
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(40px, -40px); }
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            margin-bottom: 20px;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 20px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #25f4ee, #fe2c55);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+        .logo-text {
+            background: linear-gradient(90deg, #25f4ee, #fe2c55);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .back-btn {
+            color: #8b95a7;
+            text-decoration: none;
+            font-size: 14px;
+            padding: 8px 15px;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.05);
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 26px;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #8b95a7;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        .search-box {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 18px;
+            padding: 22px 20px;
+            margin-bottom: 20px;
+        }
+        .search-box label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 14px;
+            color: #ccc;
+        }
+        .search-box input {
+            width: 100%;
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.15);
+            background: rgba(0,0,0,0.3);
+            color: white;
+            font-size: 14px;
+            margin-bottom: 12px;
+            direction: ltr;
+            text-align: left;
+        }
+        .search-box input:focus {
+            outline: none;
+            border-color: #25f4ee;
+        }
+        .search-box button {
+            width: 100%;
+            padding: 15px;
+            border-radius: 12px;
+            border: none;
+            background: linear-gradient(90deg, #25f4ee, #fe2c55);
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 20px rgba(254, 44, 85, 0.35);
+        }
+        .search-box button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(254, 44, 85, 0.5);
+        }
+        .search-box button:disabled { opacity: 0.6; cursor: not-allowed; }
+
+        .loader {
+            text-align: center;
+            padding: 30px;
+            display: none;
+        }
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255,255,255,0.1);
+            border-top-color: #25f4ee;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .loader p { color: #8b95a7; font-size: 14px; }
+
+        .result {
+            display: none;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 18px;
+            padding: 20px;
+        }
+        .result .thumb {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 15px;
+        }
+        .result .title {
+            font-size: 14px;
+            margin-bottom: 18px;
+            color: #ddd;
+            line-height: 1.6;
+            padding: 12px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 10px;
+        }
+        .dl-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 12px;
+            text-decoration: none;
+            color: white;
+            font-size: 15px;
+            font-weight: bold;
+            transition: transform 0.2s;
+        }
+        .dl-btn:hover { transform: translateY(-2px); }
+        .dl-mp4 { background: linear-gradient(90deg, #25f4ee, #0891b2); }
+        .dl-hd { background: linear-gradient(90deg, #fe2c55, #c2185b); }
+        .dl-mp3 { background: linear-gradient(90deg, #8b5cf6, #6d28d9); }
+
+        .error {
+            display: none;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #fca5a5;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .tips {
+            margin-top: 25px;
+            padding: 18px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+            font-size: 13px;
+            color: #8b95a7;
+            line-height: 1.9;
+        }
+        .tips strong { color: #25f4ee; }
+
+        .instagram-float {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 30px auto 20px;
+            padding: 12px 20px;
+            background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
+            border-radius: 50px;
+            text-decoration: none;
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            max-width: 280px;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-orbs">
+        <div class="orb orb1"></div>
+        <div class="orb orb2"></div>
+    </div>
+
+    <div class="container">
+        <header>
+            <a href="/" class="logo">
+                <div class="logo-icon">⚡</div>
+                <span class="logo-text">Zak Tools</span>
+            </a>
+            <a href="/" class="back-btn">← رجوع</a>
+        </header>
+
+        <h1>🎵 تحميل فيديو تيك توك</h1>
+        <p class="subtitle">بدون علامة مائية • MP4 / HD / MP3</p>
+
+        <div class="search-box">
+            <label>🔗 الصق رابط الفيديو:</label>
+            <input type="text" id="urlInput" placeholder="https://vt.tiktok.com/..." autocomplete="off">
+            <button id="searchBtn" onclick="download()">🚀 تحميل</button>
+        </div>
+
+        <div class="loader" id="loader">
+            <div class="spinner"></div>
+            <p>جاري جلب الفيديو... قد يستغرق 10-20 ثانية</p>
+        </div>
+
+        <div class="error" id="error"></div>
+
+        <div class="result" id="result">
+            <img id="thumb" class="thumb" src="" alt="">
+            <div class="title" id="title"></div>
+            <div id="downloads"></div>
+        </div>
+
+        <div class="tips">
+            <strong>💡 كيف تحصل على الرابط؟</strong><br>
+            1. افتح تطبيق تيك توك<br>
+            2. اختر الفيديو<br>
+            3. اضغط <strong>Share</strong> → <strong>Copy Link</strong><br>
+            4. الصق الرابط هنا
+        </div>
+
+        <a href="{{ instagram_url }}" target="_blank" class="instagram-float">
+            📷 تابعني على إنستغرام
+        </a>
+    </div>
+
+    <script>
+        async function download() {
+            const url = document.getElementById('urlInput').value.trim();
+            const btn = document.getElementById('searchBtn');
+            const loader = document.getElementById('loader');
+            const result = document.getElementById('result');
+            const error = document.getElementById('error');
+
+            if (!url) {
+                error.textContent = '⚠️ الرجاء إدخال رابط';
+                error.style.display = 'block';
+                return;
+            }
+
+            error.style.display = 'none';
+            result.style.display = 'none';
+            loader.style.display = 'block';
+            btn.disabled = true;
+
+            try {
+                const formData = new FormData();
+                formData.append('url', url);
+
+                const response = await fetch('/api/tiktok', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (data.status !== 'ok') {
+                    error.textContent = '❌ ' + (data.message || 'فشل التحميل');
+                    error.style.display = 'block';
+                    return;
+                }
+
+                document.getElementById('thumb').src = data.thumbnail || '';
+                document.getElementById('title').textContent = data.title || '';
+
+                const div = document.getElementById('downloads');
+                div.innerHTML = '';
+
+                data.downloads.forEach(dl => {
+                    const a = document.createElement('a');
+                    a.href = dl.url;
+                    a.target = '_blank';
+                    a.className = 'dl-btn';
+                    if (dl.type === 'mp3') a.classList.add('dl-mp3');
+                    else if (dl.type === 'mp4_hd') a.classList.add('dl-hd');
+                    else a.classList.add('dl-mp4');
+                    a.textContent = dl.label;
+                    div.appendChild(a);
+                });
+
+                result.style.display = 'block';
+
+            } catch (e) {
+                error.textContent = '❌ خطأ: ' + e.message;
+                error.style.display = 'block';
+            } finally {
+                loader.style.display = 'none';
+                btn.disabled = false;
+            }
+        }
+
+        // تحميل تلقائي عند الضغط Enter
+        document.getElementById('urlInput').addEventListener('keypress', e => {
+            if (e.key === 'Enter') download();
+        });
+    </script>
+</body>
+</html>
