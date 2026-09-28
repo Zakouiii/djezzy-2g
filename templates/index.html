@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zak Tools — أدواتك المجانية</title>
+    <meta name="description" content="Zak Tools - أدوات مجانية: تحميل فيديوهات تيك توك بدون علامة مائية، وزيادة متابعين إنستغرام بسهولة.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body {
+            font-family: -apple-system, 'Segoe UI', 'Tahoma', sans-serif;
+            background: #0a0e1a;
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* خلفية متحركة */
+        .bg-orbs {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            overflow: hidden;
+        }
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            animation: float 20s infinite ease-in-out;
+        }
+        .orb1 { width: 400px; height: 400px; background: #25f4ee; top: -100px; right: -100px; }
+        .orb2 { width: 350px; height: 350px; background: #fe2c55; bottom: -100px; left: -100px; animation-delay: -7s; }
+        .orb3 { width: 300px; height: 300px; background: #8b5cf6; top: 40%; left: 30%; animation-delay: -14s; }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(50px, -50px) scale(1.1); }
+            66% { transform: translate(-50px, 50px) scale(0.9); }
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+        }
+
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            margin-bottom: 30px;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 22px;
+            font-weight: bold;
+        }
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #25f4ee, #fe2c55);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            box-shadow: 0 4px 20px rgba(254, 44, 85, 0.4);
+        }
+        .logo-text {
+            background: linear-gradient(90deg, #25f4ee, #fe2c55);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .instagram-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 15px rgba(253, 29, 29, 0.3);
+        }
+        .instagram-btn:hover {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 8px 25px rgba(253, 29, 29, 0.6);
+        }
+        .instagram-btn svg {
+            width: 24px;
+            height: 24px;
+            fill: white;
+        }
+
+        /* Hero */
+        .hero {
+            text-align: center;
+            padding: 30px 20px 40px;
+        }
+        .hero h1 {
+            font-size: 32px;
+            line-height: 1.3;
+            margin-bottom: 15px;
+            font-weight: 800;
+        }
+        .hero h1 .gradient {
+            background: linear-gradient(90deg, #25f4ee, #fe2c55);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero p {
+            font-size: 16px;
+            color: #8b95a7;
+            line-height: 1.7;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Features */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        .feature {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 15px;
+            padding: 20px 15px;
+            text-align: center;
+            transition: transform 0.3s, background 0.3s;
+        }
+        .feature:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.07);
+        }
+        .feature-icon {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        .feature h3 {
+            font-size: 14px;
+            color: #fff;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        .feature p {
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        /* Cards */
+        .cards {
+            display: grid;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+        .card {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            padding: 22px 20px;
+            border-radius: 18px;
+            text-decoration: none;
+            color: white;
+            transition: transform 0.3s, box-shadow 0.3s;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            opacity: 0.15;
+            z-index: 0;
+        }
+        .card-tiktok::before { background: linear-gradient(135deg, #25f4ee, #fe2c55); }
+        .card-instagram::before { background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045); }
+        .card-florist::before { background: linear-gradient(135deg, #e74c3c, #f39c12); }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .card-icon, .card-content, .card-arrow {
+            position: relative;
+            z-index: 1;
+        }
+        .card-icon {
+            width: 55px;
+            height: 55px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            flex-shrink: 0;
+        }
+        .card-content { flex: 1; }
+        .card-content h3 {
+            font-size: 17px;
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+        .card-content p {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.4;
+        }
+        .card-arrow {
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* About */
+        .about {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 30px 25px;
+            margin-bottom: 30px;
+        }
+        .about h2 {
+            font-size: 20px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .about h2 .gradient {
+            background: linear-gradient(90deg, #25f4ee, #fe2c55);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .about p {
+            color: #a0a8b8;
+            line-height: 1.9;
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+        .about ul {
+            list-style: none;
+            margin: 15px 0;
+        }
+        .about ul li {
+            padding: 8px 0;
+            color: #a0a8b8;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .about ul li::before {
+            content: '✓';
+            color: #25f4ee;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .dev {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 20px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 50px;
+            text-decoration: none;
+            color: white;
+            margin-bottom: 15px;
+            transition: transform 0.3s, background 0.3s;
+        }
+        .dev:hover {
+            transform: translateY(-3px);
+            background: rgba(255, 255, 255, 0.08);
+        }
+        .dev-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .dev-icon svg { width: 16px; height: 16px; fill: white; }
+        .dev span { font-size: 14px; font-weight: 600; }
+        .copyright {
+            font-size: 12px;
+            color: #4b5563;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 { font-size: 24px; }
+            .hero p { font-size: 14px; }
+            .logo { font-size: 18px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-orbs">
+        <div class="orb orb1"></div>
+        <div class="orb orb2"></div>
+        <div class="orb orb3"></div>
+    </div>
+
+    <div class="container">
+        <header>
+            <div class="logo">
+                <div class="logo-icon">⚡</div>
+                <span class="logo-text">Zak Tools</span>
+            </div>
+            <a href="{{ instagram_url }}" target="_blank" class="instagram-btn" aria-label="Instagram">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+                </svg>
+            </a>
+        </header>
+
+        <div class="hero">
+            <h1>أدواتك المجانية <span class="gradient">في مكان واحد</span></h1>
+            <p>حمّل فيديوهاتك المفضلة من تيك توك بدون علامة مائية، وزوّد متابعين إنستغرام بسهولة وسرعة — كل ذلك مجاناً وبدون تسجيل.</p>
+        </div>
+
+        <div class="features">
+            <div class="feature">
+                <div class="feature-icon">⚡</div>
+                <h3>سريع جداً</h3>
+                <p>خلال ثوانٍ</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🔒</div>
+                <h3>آمن 100%</h3>
+                <p>بدون تسجيل</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">💎</div>
+                <h3>بدون ماء</h3>
+                <p>جودة عالية</p>
+            </div>
+        </div>
+
+        <div class="cards">
+            <a href="/tiktok" class="card card-tiktok">
+                <div class="card-icon">🎵</div>
+                <div class="card-content">
+                    <h3>تحميل من تيك توك</h3>
+                    <p>حمّل الفيديو أو الصوت MP3 بدون علامة مائية</p>
+                </div>
+                <div class="card-arrow">←</div>
+            </a>
+
+            <a href="/member" class="card card-instagram">
+                <div class="card-icon">📈</div>
+                <div class="card-content">
+                    <h3>زيادة متابعين إنستغرام</h3>
+                    <p>متابعون وإعجابات حقيقية لحسابك</p>
+                </div>
+                <div class="card-arrow">←</div>
+            </a>
+
+            <a href="/zak-florist" class="card card-florist">
+                <div class="card-icon">🌸</div>
+                <div class="card-content">
+                    <h3>Zak Florist</h3>
+                    <p>واجهة بديلة لخدمات زيادة المتابعين</p>
+                </div>
+                <div class="card-arrow">←</div>
+            </a>
+        </div>
+
+        <div class="about">
+            <h2>🌟 عن <span class="gradient">Zak Tools</span></h2>
+            <p>
+                Zak Tools هو موقع مجاني يوفّر لك مجموعة من الأدوات العملية التي يحتاجها كل صانع محتوى
+                وكل مستخدم لوسائل التواصل الاجتماعي. هدفنا تبسيط حياتك الرقمية وتوفير وقتك.
+            </p>
+            <ul>
+                <li>تحميل فيديوهات تيك توك بجودة عالية</li>
+                <li>تحميل الصوت MP3 من الفيديوهات</li>
+                <li>زيادة متابعين وإعجابات إنستغرام</li>
+                <li>واجهة عربية بسيطة وسريعة</li>
+                <li>بدون تسجيل دخول، بدون إعلانات مزعجة</li>
+            </ul>
+            <p>
+                الموقع يعمل على مدار الساعة، ولا يحتاج أي تثبيت. فقط افتح، استخدم، واستمتع.
+                إذا واجهت أي مشكلة أو كان لديك اقتراح، لا تتردد في التواصل معنا عبر إنستغرام.
+            </p>
+        </div>
+
+        <footer>
+            <a href="{{ instagram_url }}" target="_blank" class="dev">
+                <div class="dev-icon">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+                    </svg>
+                </div>
+                <span>تابعني على إنستغرام @_u.wej</span>
+            </a>
+            <div class="copyright">© 2025 Zak Tools — جميع الحقوق محفوظة</div>
+        </footer>
+    </div>
+</body>
+</html>
